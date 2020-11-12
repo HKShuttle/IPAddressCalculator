@@ -30,6 +30,11 @@ public class Main {
         */
 
         // implement ipv6 address parser
+        String[] parsedAddress = inputAddress.split(":", 8);
 
+        // temporary (ugokuka tesuto suru yatsu)
+        for(String var : parsedAddress){
+            System.out.println(var);
+        }
     }
 }
