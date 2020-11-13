@@ -12,12 +12,12 @@ public class Message {
         System.out.println("Prefix seems a Wrong Value of Range!");
     }
     static void showIPv4Address(int iPv4Address){
-        System.out.println("IPv4 Address is: " + iPv4Address);
+        System.out.println("IPv4 Address: " + iPv4Address);
     }
     static void showIPv4Address(String iPv4Address){
-        System.out.println("IPv4 Address is: " + iPv4Address);
+        System.out.println("IPv4 Address: " + iPv4Address);
     }
     static void showPrefixLength(int prefixLength){
-        System.out.println("Prefix Length is: " + prefixLength);
+        System.out.println("Prefix Length: " + prefixLength);
     }
 }

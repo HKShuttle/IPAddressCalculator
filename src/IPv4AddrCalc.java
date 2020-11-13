@@ -72,9 +72,21 @@ public class IPv4AddrCalc {
             subnetMaskArray[3] = shiftNetMask(inputPrefixLength - 24);
         }
 
-        // show subnet Mask
-        System.out.print("Subnet Mask is: ");
+        // show subnet mask
+        System.out.print("Subnet Mask: ");
         for(int var : subnetMaskArray){
+            System.out.print(var + ".");
+        }
+        System.out.println();
+
+        // calculate network address
+        int[] networkAddressAllay = new int[4];
+        for (int i = 0; i < 4; i++) {
+            networkAddressAllay[i] = iPv4AddressArray[i] & subnetMaskArray[i];
+        }
+        // snow network address
+        System.out.print("Network Address: ");
+        for(int var : networkAddressAllay){
             System.out.print(var + ".");
         }
         System.out.println();
