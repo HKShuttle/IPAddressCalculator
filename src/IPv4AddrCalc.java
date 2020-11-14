@@ -26,6 +26,7 @@ public class IPv4AddrCalc {
             return;
         }
 
+        // check prefix range
         if (inputPrefixLength < 1 || inputPrefixLength > 30) {
             Message.prefixRangeError();
             Message.finish();
@@ -90,6 +91,24 @@ public class IPv4AddrCalc {
             System.out.print(var + ".");
         }
         System.out.println();
+
+        // calculate broadcast address of host part
+        int[] broadCastAddressOfHostPartArray = new int[4];
+        for (int i = 0; i < 4; i++) {
+            broadCastAddressOfHostPartArray[i] = 255 - subnetMaskArray[i];
+        }
+        // calculate and show broadcast address
+        int[] broadCastAddressArray = new int[4];
+        for (int i = 0; i < 4; i++) {
+            broadCastAddressArray[i] = networkAddressAllay[i] + broadCastAddressOfHostPartArray[i];
+        }
+        System.out.print("Broadcast Address: ");
+        for(int var : broadCastAddressArray){
+            System.out.print(var + ".");
+        }
+        System.out.println();
+
+        // show number of hosts
     }
 
     private static int shiftNetMask(int prefixLength) {
