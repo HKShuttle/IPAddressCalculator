@@ -74,11 +74,7 @@ public class IPv4AddrCalc {
         }
 
         // show subnet mask
-        System.out.print("Subnet Mask: ");
-        for(int var : subnetMaskArray){
-            System.out.print(var + ".");
-        }
-        System.out.println();
+        System.out.println("Subnet Mask: " + buildAddress(subnetMaskArray));
 
         // calculate network address
         int[] networkAddressAllay = new int[4];
@@ -86,11 +82,7 @@ public class IPv4AddrCalc {
             networkAddressAllay[i] = iPv4AddressArray[i] & subnetMaskArray[i];
         }
         // snow network address
-        System.out.print("Network Address: ");
-        for(int var : networkAddressAllay){
-            System.out.print(var + ".");
-        }
-        System.out.println();
+        System.out.println("Network Address: " + buildAddress(networkAddressAllay));
 
         // calculate broadcast address of host part
         int[] broadCastAddressOfHostPartArray = new int[4];
@@ -102,11 +94,7 @@ public class IPv4AddrCalc {
         for (int i = 0; i < 4; i++) {
             broadCastAddressArray[i] = networkAddressAllay[i] + broadCastAddressOfHostPartArray[i];
         }
-        System.out.print("Broadcast Address: ");
-        for(int var : broadCastAddressArray){
-            System.out.print(var + ".");
-        }
-        System.out.println();
+        System.out.println("Broadcast Address: " + buildAddress(broadCastAddressArray));
 
         // show number of hosts
         long numberOfHosts =
@@ -127,5 +115,8 @@ public class IPv4AddrCalc {
             tmp = tmp << 1;
         }
         return tmp;
+    }
+    private  static String buildAddress(int[] address){
+        return address[0] + "." + address[1] + "." + address[2] + "." + address[3];
     }
 }
