@@ -109,6 +109,12 @@ public class IPv4AddrCalc {
         System.out.println();
 
         // show number of hosts
+        long numberOfHosts =
+                (long) (broadCastAddressOfHostPartArray[0] * Math.pow(2, 24) +
+                        broadCastAddressOfHostPartArray[1] * Math.pow(2, 16) +
+                        broadCastAddressOfHostPartArray[2] * Math.pow(2, 8) +
+                        broadCastAddressOfHostPartArray[3] - 1);
+        System.out.println("Number of Hosts: " + numberOfHosts);
     }
 
     private static int shiftNetMask(int prefixLength) {
