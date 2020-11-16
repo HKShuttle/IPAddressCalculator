@@ -3,27 +3,27 @@ import java.io.InputStreamReader;
 import java.util.stream.Stream;
 
 public class IPv4AddrCalc {
+    static String inputIPv4Address;
+    static int inputPrefixLength;
     public static void main(String[] args) {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        for(String var : args){
+            System.out.println(var);
+        }
 
-        // address receive from stdin
-        String inputIPv4Address;
-        int inputPrefixLength;
-        try {
-            System.out.println("Input IPv4 Address.");
-            System.out.println("e.g.) 133.17.0.1");
-            inputIPv4Address = bufferedReader.readLine();
-            System.out.println("Input IPv4 Address Prefix.(Integer Only)");
-            String buf = bufferedReader.readLine();
-            inputPrefixLength = Integer.parseInt(buf);
-        } catch (NumberFormatException e) {
-            Message.prefixIsNaN();
-            Message.finish();
-            return;
-        } catch (Exception e) {
-            Message.exception();
-            Message.finish();
-            return;
+        if(args.length != 0){
+            // address receive from argument
+            String[] splitPrefix = args[0].split("/", 2);
+            inputIPv4Address = splitPrefix[0];
+            try{
+                inputPrefixLength = Integer.parseInt(splitPrefix[1]);
+            } catch (NumberFormatException e){
+                Message.prefixIsNaN();
+                Message.finish();
+            }
+        } else {
+            // address receive from stdin
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            if (dialogue(bufferedReader)) return;
         }
 
         // check prefix range
@@ -105,6 +105,26 @@ public class IPv4AddrCalc {
         System.out.println("Number of Hosts: " + numberOfHosts);
     }
 
+    private static boolean dialogue(BufferedReader bufferedReader) {
+        try {
+            System.out.println("Input IPv4 Address.");
+            System.out.println("e.g.) 133.17.0.1");
+            inputIPv4Address = bufferedReader.readLine();
+            System.out.println("Input IPv4 Address Prefix.(Integer Only)");
+            String buf = bufferedReader.readLine();
+            inputPrefixLength = Integer.parseInt(buf);
+        } catch (NumberFormatException e) {
+            Message.prefixIsNaN();
+            Message.finish();
+            return true;
+        } catch (Exception e) {
+            Message.exception();
+            Message.finish();
+            return true;
+        }
+        return false;
+    }
+
     private static int shiftNetMask(int prefixLength) {
         int tmp = 1;
         for (int i = 0; i < prefixLength - 1; i++) {
@@ -116,7 +136,7 @@ public class IPv4AddrCalc {
         }
         return tmp;
     }
-    private  static String buildAddress(int[] address){
+    private static String buildAddress(int[] address){
         return address[0] + "." + address[1] + "." + address[2] + "." + address[3];
     }
 }
