@@ -35,7 +35,7 @@ public class IPv4 {
     }
 
     public int getBroadcastAddress() {
-        return address & netMask + ~netMask;
+        return (address & netMask) + ~netMask;
     }
 
     private void calculateNetMask() {
@@ -44,7 +44,7 @@ public class IPv4 {
             netMask = netMask << 1;
             netMask += 1;
         }
-        for (int i = 0; i < 24 - prefix; i++) {
+        for (int i = 0; i < 32 - prefix; i++) {
             netMask = netMask << 1;
         }
     }
