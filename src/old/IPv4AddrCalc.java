@@ -1,3 +1,5 @@
+package old;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.stream.Stream;
@@ -23,7 +25,9 @@ public class IPv4AddrCalc {
         } else {
             // address receive from stdin
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-            if (dialogue(bufferedReader)) return;
+            if (dialogue(bufferedReader)) {
+                return;
+            }
         }
 
         // check prefix range

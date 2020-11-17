@@ -1,3 +1,5 @@
+package old;
+
 public class Message {
     static void finish(){
         System.out.println("This Program will be Finish.");
