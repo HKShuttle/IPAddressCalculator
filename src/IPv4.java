@@ -3,7 +3,7 @@ public class IPv4 {
     private int prefix;
     private int netMask;
 
-    IPv4(int address, int prefix) {
+    public IPv4(int address, int prefix) {
         this.address = address;
         this.prefix = prefix;
         calculateNetMask();
