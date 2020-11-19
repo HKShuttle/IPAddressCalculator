@@ -33,11 +33,12 @@ public class IPv4Exec {
         // check prefix range
         if (inputPrefixLength < 1 || inputPrefixLength > 30) {
             System.out.println("Error: Invalid Prefix Length");
+            return;
         }
 
         IPv4 iPv4 = new IPv4(inputIPv4Address, inputPrefixLength);
         System.out.println("IPv4 Address: " + buildAddress(iPv4.getAddress()));
-        System.out.println("Prefix Length: " + buildAddress(iPv4.getPrefix()));
+        System.out.println("Prefix Length: " + iPv4.getPrefix());
 
         // show subnet mask
         System.out.println("Subnet Mask: " + buildAddress(iPv4.getNetMask()));
