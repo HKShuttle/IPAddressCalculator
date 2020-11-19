@@ -1,8 +1,5 @@
-import old.Message;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.stream.Stream;
 
 public class IPv4Exec {
     static String inputData;
