@@ -1,60 +1,70 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
+    static String inputData;
     public static void main(String[] args) {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String inputIPv4Address;
+        int inputPrefixLength;
 
-        // address receive from stdin
-        String inputAddress;
-        try {
-            System.out.println("Input IPv6 Address and Prefix.");
-            System.out.println("e.g.) 2001:db8:3700::fc01/56");
-            inputAddress = br.readLine();
-        } catch (IOException e){
-            System.out.println("An Exception has Occurred!");
-            System.out.println("This Program will be Finish.");
+        if(args.length != 0){
+            // address receive from argument
+            inputData = args[0];
+        } else {
+            // address receive from stdin
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            if (dialogue(bufferedReader)) {
+                return;
+            }
+        }
+
+        String[] splitPrefix = inputData.split("/", 2);
+        inputIPv4Address = splitPrefix[0];
+        try{
+            inputPrefixLength = Integer.parseInt(splitPrefix[1]);
+        } catch (NumberFormatException e){
+            System.out.println("Error: Prefix is NaN");
             return;
         }
 
-        // split by slash
-
-        // temporary
-        System.out.println(inputAddress);
-
-        int[] internalAddress = {0, 0, 0, 0, 0, 0, 0, 0};
-        /*
-        separate normalized ipv6 address by 16bits
-        2001::1 to {8193, 0, 0, 0, 0, 0, 0, 1}
-        ::1 to {0, 0, 0, 0, 0, 0, 0, 1}
-        2001:db8:: to {8193, 3512, 0, 0, 0, 0, 0, 0}
-        */
-
-        // implement ipv6 address parser
-        String[] parsedAddress = inputAddress.split("::", 2);
-        if (parsedAddress.length > 1) { // with Zero-Padding
-            if (!parsedAddress[0].equals("")) {
-                String[] tmpAddress = parsedAddress[0].split(":", 8);
-                for (int i = 0; i < tmpAddress.length; i++) {
-                    internalAddress[i] = Integer.parseInt(tmpAddress[i],16);
-                }
-            }
-            if (!parsedAddress[1].equals("")){
-                String[] tmpAddress = parsedAddress[1].split(":", 8);
-                int count = 0;
-                for (int i = 7; i > 7 - tmpAddress.length; i--) {
-                    internalAddress[i] = Integer.parseInt(tmpAddress[count],16);
-                    count++;
-                }
-            }
+        // check prefix range
+        if (inputPrefixLength < 1 || inputPrefixLength > 30) {
+            System.out.println("Error: Invalid Prefix Length");
+            return;
         }
 
-        // temporary (ugokuka tesuto suru yatsu)
-        for(int var : internalAddress){
-            System.out.print(var + ":");
+        IPv4 iPv4 = new IPv4(inputIPv4Address, inputPrefixLength);
+        System.out.println("IPv4 Address: " + buildAddress(iPv4.getAddress()));
+        System.out.println("Prefix Length: " + iPv4.getPrefix());
+
+        // show subnet mask
+        System.out.println("Subnet Mask: " + buildAddress(iPv4.getNetMask()));
+
+        // snow network address
+        System.out.println("Network Address: " + buildAddress(iPv4.getNetworkAddress()));
+
+        // calculate and show broadcast address
+        System.out.println("Broadcast Address: " + buildAddress(iPv4.getBroadcastAddress()));
+
+        // show number of hosts
+        int numberOfHosts = ~iPv4.getNetMask() - 1;
+        System.out.println("Number of Hosts: " + numberOfHosts);
+    }
+
+    private static boolean dialogue(BufferedReader bufferedReader) {
+        try {
+            System.out.println("Input IPv4 Address and Prefix.");
+            System.out.println("e.g.) 133.17.0.1/24");
+            inputData = bufferedReader.readLine();
+        } catch (Exception e) {
+            System.out.println("Error");
+            return true;
         }
-        System.out.println();
-        System.out.println(parsedAddress.length);
+        return false;
+    }
+
+    private static String buildAddress(int address) {
+        return (address >>> 24) + "." + ((address >>> 16) & 0xff) + "." +
+                ((address >>> 8) & 0xff) + "." + (address & 0xff);
     }
 }
